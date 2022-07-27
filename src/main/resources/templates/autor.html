@@ -16,6 +16,7 @@ and open the template in the editor.
             <nav>
                 <a href="/">Home</a>
                 <a href="/autor/cargar">Cargar Autor</a>
+                <a href="/autor/admin">Administrar Autores</a>
                 <br>
                 <br>
             </nav>
@@ -26,7 +27,6 @@ and open the template in the editor.
                     <th scope="col">Id del Autor</th>
                     <th scope="col">Nombre del Autor</th>
                     <th scope="col">Foto</th>
-                    <th scope="col">Acciones</th>
                 </thead>
                 <tbody th:each="autor: ${autores}">
                     <tr>
@@ -35,8 +35,7 @@ and open the template in the editor.
                         <td>
                             <img th:if="${autor.foto!=null}" th:src="${'/foto/autor?idAutor=__${autor.id}__' }" width="200px">
                             <img th:unless="${autor.foto!=null}" style="display:none">                           
-                        </td>
-                        <td><a th:href="@{/autor/editar/__${autor.id}__}">Editar</a></td>  
+                        </td>  
                     </tr>
                 </tbody>
             </table>

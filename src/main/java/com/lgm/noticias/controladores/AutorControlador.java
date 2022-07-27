@@ -59,7 +59,9 @@ public class AutorControlador {
     }
 
     @GetMapping("/admin")
-    public String adminAutor (){
-        return "admin_autor.html";
+    public String adminAutor (ModelMap modelo){
+        List<Autor> autores = autorServicio.listarAutores();
+        modelo.addAttribute("autores", autores);
+        return "autor_admin.html";
     }
 }

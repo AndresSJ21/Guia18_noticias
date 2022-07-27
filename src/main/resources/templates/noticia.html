@@ -15,7 +15,7 @@ and open the template in the editor.
             <h2>Bienvenido a EggNews!!!!</h2>
             <nav>
                 <a href="/">Home</a>
-                <a href="/noticias/listar">Noticias</a>
+                <a href="/noticia/admin">Administrar Noticias</a>
                 <a href="/noticia/cargar">Cargar Noticia</a>
                 <br>
                 <br>
@@ -44,8 +44,6 @@ and open the template in the editor.
                                     <tr>
                                         <th scope="row"></th>
                                         <td><a th:href="@{/noticia/mostrar/__${noticia.id}__}">Ver</a></td>
-                                        <td><a th:href="@{/noticia/editar/__${noticia.id}__}">Editar</a></td>
-                                        <td><a href="">Eliminar</a></td>
                                     </tr>
                                 </tbody>
                             </table>  

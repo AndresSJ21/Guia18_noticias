@@ -50,8 +50,7 @@ public class NoticiaControlador {
     public String listarNoticias (ModelMap modelo){
         List<Noticia> noticias = noticiaServicio.listarNoticias();
         modelo.addAttribute("noticias", noticias);
-        return "noticia.html";
-        
+        return "noticia.html"; 
     }
     
     @GetMapping("/editar/{id}")
@@ -80,7 +79,10 @@ public class NoticiaControlador {
     }
     
     @GetMapping("/admin")
-    public String adminNoticia(){
+    public String adminNoticia(ModelMap modelo){
+        List<Noticia> noticias = noticiaServicio.listarNoticias();
+        modelo.addAttribute("noticias", noticias);
+        
         return "noticia_admin.html";
     }
 }
