@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+aca listamos todas las noticias y tenemos la opcion de editar uno por uno, activarlo/desactivarlo y eliminarlo
+-->
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>EggNews: Titulares</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Administracion de noticias</h1>
+<!--       
+        <section>
+         <table>
+       
+                <thead
+                    <th scope="col"></th>
+                    <th scope="col">Titulares</th>
+                    <th scope="col">Fotos</th>
+                    <th scope="col">Acciones</th>
+                </thead>
+                <tbody th:each="noticia: ${noticias}">
+                    <tr>
+                        <th hidden  scope="row" th:text="${noticia.id}"></th>
+                        <td th:text="${noticia.titulo}"></td>
+                        <td>
+                            <img th:if="${noticia.foto!=null}" th:src="${'/foto/noticia?idNoticia=__${noticia.id}__' }" width="200px">
+                            <img th:unless="${noticia.foto!=null}" style="display:none">                           
+                        </td>
+                        <td>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row"></th>
+                                        <td><a th:href="@{/noticia/mostrar/__${noticia.id}__}">Ver</a></td>
+                                        <td><a th:href="@{/noticia/editar/__${noticia.id}__}">Editar</a></td>
+                                        <td><a href="">Eliminar</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>  
+                        </td> 
+                    </tr>
+                </tbody>        
+            </table>
+        </section>
+       </<!-->
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/noticia/cargar">Cargar Noticia</a></li>
+                <li><a href="/noticia/listar">Noticias</a></li>
+            </ul>
+        </nav>
+    </body>
+</html>

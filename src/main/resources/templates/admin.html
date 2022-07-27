@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--
+desde acá accedemos a las diferentes paginas de administracion
+-->
+<html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>EggNews: Titulares</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <h1>Administración de Secciones</h1>
+       
+        <section>
+         <table>
+       
+                <thead
+                    <th scope="col"></th>
+                    <th scope="col">Seccion</th>
+                    <th scope="col">Accion</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row"></th>
+                        <td><a href="/noticia/admin">Noticias</a></td>
+                        <td><a href="/autor/admin">Autores</a></td>           
+                    </tr>
+                </tbody>        
+            </table>
+        </section>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/noticia/listar">Listar Noticias</a></li>
+                <li><a href="/noticia/cargar">Cargar Noticia</a></li>
+                <li><a href="/autor/listar">Listar Autores</a></li>
+                <li><a href="/autor/cargar">Cargar Autor</a></li>
+            </ul>
+        </nav>
+    </body>
+</html>

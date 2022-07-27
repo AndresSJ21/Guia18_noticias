@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>EggNews: Editar Autor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <h2>Editar Autor</h2>
+        </header>
+        <div>
+            <form th:action="@{/autor/editar/__${autor.id}__}" method="POST" enctype="multipart/form-data">
+                <input hidden th:value="${id}" name="id">
+                    <div>
+                        <label for="nombreAutor">Nombre Autor: </label>
+                        <input th:value="${autor.nombre}" type="text" name="nombre" id="nombreAutor">
+                            <br>
+                            <br>
+                            <label for="fotoAutor">Foto Autor: </label>
+                            <br>
+                                <img th:if="${autor.foto!=null}" th:src="${'/foto/autor?idAutor=__${autor.id}__' }" width="200px">
+                                <img th:unless="${autor.foto!=null}" style="display:none">
+                            <br>
+                    <label for="foto">Foto del Autor</label><br>
+                    <input type="file" name="archivo" onchange="loadFile(event)" id="foto" placeholder="Foto del Autor">
+                            <br>
+                            <img id="output" width="400px">
+                            <script>
+                                var loadFile = function(event){
+                                    var output = document.getElementById('output');
+                                    output.src = URL.createObjectURL(event.target.files[0]);
+                                    output.onload = function(){
+                                        URL.revokeObjectURL(output.src);
+                                    };
+                                };
+                            </script>
+                            <br>
+                            <br>
+                    </div>
+                    <button type="submit">Actualizar</button>
+            </form>
+        </div>
+        <div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/autor/listar">Listado Autores</a></li>
+                <li><a href="/autor/cargar">Cargar Autor</a></li>
+            </ul>
+        </div>
+    </body>
+</html>

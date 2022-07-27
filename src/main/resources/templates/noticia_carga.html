@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http:/www.thymeleaf.org">
+    <head>
+        <title>EggNews: Cargar Noticia</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <h2>¡¡¡Carga la noticia aquí!!!</h2>
+        </header>
+        <section>
+            <form action="/noticia/registro" method="POST" enctype="multipart/form-data">
+                <div>
+                    <h3 for="titular">Titular</h3><br>
+                    <input type="text" name="titulo" id="titular" placeholder="Ingresa el titular aquí...">
+                    <br><br>
+                    <label for="contenido">Contenido</label><br>
+                    <textarea name="contenido" rows="10" cols="40" id="contenido" placeholder="Escribe el contenido de la nota aquí..."></textarea>
+                    <br>
+                    <br>
+                    <label for="imgNoticia"></label>
+                    <input type="file" name="archivo" onchange="loadFile(event)" id="imgNoticia" placeholder="Elige una foto.."/>
+                    <br>
+                    <br>
+                    <img id="output" width="400px">
+                    <script>
+                        var loadFile = function(event){
+                            var output = document.getElementById('output');
+                            output.src = URL.createObjectURL(event.target.files[0]);
+                            output.onload = function(){
+                                URL.revokeObjectURL(output.src);
+                            };
+                        };
+                    </script>
+  
+                    <br>    
+                    <br>
+                        <label>Autor: </label>
+                        <select name="idAutor">
+                            <option>Seleccionar Autor
+                            <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre}">
+                        </select>   
+                    <br>
+                    <br>    
+                    <button type="submit">Cargar Noticia</button>
+                    <br>
+                </div>
+            </form>
+        </section>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/autor/listar">Autores</a></li>
+                <li><a href="/autor/cargar">Cargar Autor</a></li>
+            </ul>
+        </nav>
+    </body>
+</html>

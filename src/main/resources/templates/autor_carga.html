@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>EggNews: Cargar Autor</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <div>
+                <h2> Carga el autor aquí! </h2>
+            </div>
+        </header>
+        <section>
+            <form action="/autor/registro" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label for="nombreAutor">Nombre del autor</label><br>
+                    <input type="text" name="nombre" id="nombreAutor" placeholder="Nombre del Autor">
+                    <br>
+                    <br>
+                    <label for="foto">Foto del Autor</label><br>
+                    <input type="file" name="archivo" onchange="loadFile(event)" id="foto" placeholder="Foto del Autor"><br><br>
+                    <img id="output" width="400px">
+                    <script>
+                        var loadFile = function(event){
+                            var output = document.getElementById('output');
+                            output.src = URL.createObjectURL(event.target.files[0]);
+                            output.onload = function(){
+                                URL.revokeObjectURL(output.src);
+                            };
+                        };
+                    </script>
+                </div>
+                <br>
+                <button type="submit">Cargar</button>
+            </form>
+        </section>     
+        <div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/autor/listar">Listado Autores</a></li>
+            </ul>
+        </div>
+    </body>
+</html>

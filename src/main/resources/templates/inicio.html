@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>EggNews</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <body>
+        <div>
+            <table>
+                <thead>
+                    <th scope="col">Id Noticia</th>
+                    <th scope="col">Titular</th>
+                    <th scope="col">Foto</th>
+                    <th scope="col">Acciones</th>
+                </thead>
+                <tbody th:each="autor: ${autores}">
+                    <tr>
+                        <th scope="row" th:text="${noticia.id}"></th>
+                        <td th:text="${noticia.titulo}"></td>
+                        <td><img th:src="${'/foto/noticia?idNoticia=__${noticia.id}__'}" width="200px"></td>
+                        <td><a th:href="@{/noticia/editar/__${noticia.id}__}">Editar</a></td>  
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/noticia/listar">Noticias</a></li>
+                <li><a href="/noticia/cargar">Cargar Noticia</a></li>
+                <li><a href="/autor/listar">Autores</a></li>
+                <li><a href="/autor/cargar">Cargar Autor</a></li>
+                <li><a href="admin">Admnistrar Portal</a></li>
+            </ul>
+        </nav>
+    </body>
+</html>
