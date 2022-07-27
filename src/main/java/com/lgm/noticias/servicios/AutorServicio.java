@@ -30,6 +30,9 @@ public class AutorServicio {
             Foto foto = fotoServicio.guardar(archivo);
             autor.setFoto(foto);
         }
+        
+        autor.setEstado(true);
+        
         autorRepositorio.save(autor);
     }
     
@@ -67,6 +70,12 @@ public class AutorServicio {
             autor = respuestaAutor.get();   
         }          
         return autor;
+    }
+   
+    @Transactional
+    public void softDeleteAutor(String idAutor){
+        Autor autor = buscarAutorPorId(idAutor);
+        autor.setEstado(false);
     }
    
     

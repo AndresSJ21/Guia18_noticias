@@ -31,5 +31,5 @@ public class Foto {
     @Temporal(TemporalType.DATE)
     private Date fCreacion;
    
-    private boolean activo;
+    private boolean estado;
 }

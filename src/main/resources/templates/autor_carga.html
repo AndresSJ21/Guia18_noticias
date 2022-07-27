@@ -12,9 +12,13 @@ and open the template in the editor.
     </head>
     <body>
         <header>
-            <div>
-                <h2> Carga el autor aquí! </h2>
-            </div>
+            <h1>Carga el autor aquí!</h1>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/autor/listar">Listar Autores</a>
+                <br>
+                <br>
+            </nav>
         </header>
         <section>
             <form action="/autor/registro" method="POST" enctype="multipart/form-data">
@@ -40,11 +44,6 @@ and open the template in the editor.
                 <button type="submit">Cargar</button>
             </form>
         </section>     
-        <div>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/autor/listar">Listado Autores</a></li>
-            </ul>
-        </div>
+
     </body>
 </html>

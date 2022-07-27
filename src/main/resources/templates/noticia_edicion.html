@@ -13,12 +13,19 @@ and open the template in the editor.
     <body>
         <header>
             <h2>Editá tu Noticia Aquí!!!</h2>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/noticia/listar">Listado Noticias</a>
+                <a href="/noticia/cargar">Cargar Noticia</a>
+                <br>
+                <br>
+            </nav>
         </header>
         <section>
             <form th:action="@{/noticia/editar/__${noticia.id}__}" method="POST" enctype="multipart/form-data">
                 <input hidden th:value="${id}" name="id">
                    <div>
-                        <label for="titular">Titular</label><br>
+                        <label for="titular">Titular</label>
                         <input th:value="${noticia.titulo}" type="text" name="titulo" id="titular" placeholder="Ingresa el titular aquí...">
                         <br>
                         <br>
@@ -59,12 +66,5 @@ and open the template in the editor.
                 <button type="submit">Actualizar</button>
             </form>
         </section>
-        <div>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/noticia/listar">Listado Noticias</a></li>
-                <li><a href="/noticia/cargar">Cargar Noticia</a></li>
-            </ul>
-        </div>
     </body>
 </html>

@@ -32,18 +32,16 @@ public class NoticiaServicio {
     public void crearNoticia (MultipartFile archivo, String titulo, String contenido, String idAutor)throws Exception{
         
         Autor autor = autorRepositorio.findById(idAutor).get();        
-        System.out.println(autor.getNombre());
         Noticia noticia = new Noticia();
         noticia.setTitulo(titulo);
-        System.out.println(noticia.getTitulo());
         noticia.setContenido(contenido);
-        System.out.println(noticia.getContenido());
         noticia.setFecha(new Date());
         
         Foto foto = fotoServicio.guardar(archivo);
         
         noticia.setFoto(foto);
         noticia.setAutor(autor);
+        noticia.setEstado(true);
         
         noticiaRepositorio.save(noticia);
     }
@@ -96,5 +94,12 @@ public class NoticiaServicio {
     public Noticia getOne (String id){
         return noticiaRepositorio.getOne(id);
     }
+    
+    @Transactional
+    public void softDeleteNoticia(String idNoticia){
+        Noticia noticia = buscarNoticiaPorId(idNoticia);
+        noticia.setEstado(false);
+    }
+    
     
 }

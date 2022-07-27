@@ -26,7 +26,7 @@ public class FotoServicio {
                 foto.setNombre(archivo.getName());
                 foto.setContent(archivo.getBytes());
                 foto.setFCreacion(new Date());
-                foto.setActivo(true);
+                foto.setEstado(true);
                 return fotoRepositorio.save(foto);
             } catch (Exception ex) {
                 System.err.println(ex.getMessage());
@@ -34,6 +34,22 @@ public class FotoServicio {
         }
        return null;
     }  
+    
+    public Foto buscarFotoPorId(String idFoto){
+        Foto autor = new Foto();
+        autor = null;
+        Optional<Foto> respuestaFoto = fotoRepositorio.findById(idFoto);
+        if (respuestaFoto.isPresent()){
+            autor = respuestaFoto.get();   
+        }          
+        return autor;
+    }
+    
+    @Transactional
+    public void softDeleteFoto(String idFoto){
+        Foto foto = buscarFotoPorId(idFoto);
+        foto.setEstado(false);
+    }
     
     /*    @Transactional
     public Foto editar(String idFoto, MultipartFile archivo) throws Exception{

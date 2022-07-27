@@ -32,4 +32,6 @@ public class Noticia {
 
     @ManyToOne
     private Autor autor;
+    
+    private boolean estado;
 }

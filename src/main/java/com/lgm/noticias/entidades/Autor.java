@@ -20,4 +20,6 @@ public class Autor {
     
     @OneToOne
     private Foto foto;
+    
+    private boolean estado;
 }
