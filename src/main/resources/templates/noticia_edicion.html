@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+
 <html>
     <head>
         <title>EggNews: Editar Noticia</title>
@@ -15,14 +11,14 @@ and open the template in the editor.
             <h2>Editá tu Noticia Aquí!!!</h2>
             <nav>
                 <a href="/">Home</a>
-                <a href="/noticia/listar">Listado Noticias</a>
-                <a href="/noticia/cargar">Cargar Noticia</a>
+                <a href="/cargar">Cargar Noticia</a>
+                <a href="/adminGral">Administrar portal</a>
                 <br>
                 <br>
             </nav>
         </header>
         <section>
-            <form th:action="@{/noticia/editar/__${noticia.id}__}" method="POST" enctype="multipart/form-data">
+            <form th:action="@{/editar/__${noticia.id}__}" method="POST" enctype="multipart/form-data">
                 <input hidden th:value="${id}" name="id">
                    <div>
                         <label for="titular">Titular</label>

@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html  xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>EggNews: Titulares</title>
@@ -14,16 +9,14 @@ and open the template in the editor.
         <header>
             <h2>Bienvenido a EggNews!!!!</h2>
             <nav>
-                <a href="/">Home</a>
-                <a href="/noticia/admin">Administrar Noticias</a>
-                <a href="/noticia/cargar">Cargar Noticia</a>
+                <a href="/autor/listar">Periodistas</a>
+                <a href="/adminGral">Administrar portal</a>
                 <br>
                 <br>
             </nav>
         </header>
         <section>
          <table>
-       
                 <thead
                     <th scope="col"></th>
                     <th scope="col">Titulares</th>
@@ -31,7 +24,7 @@ and open the template in the editor.
                     <th scope="col">Acciones</th>
                 </thead>
                 <tbody th:each="noticia: ${noticias}">
-                    <tr>
+                    <tr th:if="${noticia.estado}">
                         <th hidden  scope="row" th:text="${noticia.id}"></th>
                         <td th:text="${noticia.titulo}"></td>
                         <td>
@@ -43,7 +36,7 @@ and open the template in the editor.
                                 <tbody>
                                     <tr>
                                         <th scope="row"></th>
-                                        <td><a th:href="@{/noticia/mostrar/__${noticia.id}__}">Ver</a></td>
+                                        <td><a th:href="@{/mostrar/__${noticia.id}__}">Ver</a></td>
                                     </tr>
                                 </tbody>
                             </table>  

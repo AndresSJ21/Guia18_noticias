@@ -24,13 +24,11 @@ and open the template in the editor.
         <section>
             <table>
                 <thead>
-                    <th scope="col">Id del Autor</th>
                     <th scope="col">Nombre del Autor</th>
                     <th scope="col">Foto</th>
                 </thead>
                 <tbody th:each="autor: ${autores}">
-                    <tr>
-                        <th scope="row" th:text="${autor.id}"></th>
+                    <tr th:if="${autor.estado}">
                         <td th:text="${autor.nombre}"></td>
                         <td>
                             <img th:if="${autor.foto!=null}" th:src="${'/foto/autor?idAutor=__${autor.id}__' }" width="200px">

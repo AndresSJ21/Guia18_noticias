@@ -22,4 +22,5 @@ public class Autor {
     private Foto foto;
     
     private boolean estado;
+    
 }

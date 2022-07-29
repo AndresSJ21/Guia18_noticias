@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,9 @@ public class AutorServicio {
     
     @Autowired
     private FotoServicio fotoServicio;
+    
+    @Autowired
+    private NoticiaServicio noticiaServicio;
     
     @Transactional
     public void crearAutor (MultipartFile archivo, String nombre)throws Exception{
@@ -38,7 +42,7 @@ public class AutorServicio {
     
     public List<Autor> listarAutores(){
         List<Autor> autores = new ArrayList();
-        autores = autorRepositorio.findAll();
+        autores = autorRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nombre"));
         return autores;
     }
     
@@ -78,12 +82,35 @@ public class AutorServicio {
         autor.setEstado(false);
     }
    
-    
-    private void validar(){
-        /*
-        To Do
-        */
+    @Transactional
+    public boolean borrarAutor (String idAutor){
+        boolean borradoExitoso = false;
+        if (noticiaServicio.noticiasPorAutor(idAutor).isEmpty()){
+            autorRepositorio.deleteById(idAutor);
+            borradoExitoso = true;
+        }
+        return borradoExitoso;
     }
+    
+    @Transactional    
+    public boolean cambiarEstadoAutor(String id){
+        Optional<Autor> respuestaAutor = autorRepositorio.findById(id);
+        
+        if (respuestaAutor.isPresent()) {
+            Autor autor = respuestaAutor.get();
+           
+            if(autor.isEstado()){
+                autor.setEstado(false);
+            }else{
+                autor.setEstado(true);
+            }
+            autorRepositorio.save(autor);
+            return autor.isEstado();
+        }
+
+        return false;
+    }
+    
     
 
 }

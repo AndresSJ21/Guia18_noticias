@@ -1,6 +1,7 @@
 package com.lgm.noticias.entidades;
 
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ public class Noticia {
 
     private String titulo;
 
+    @Column(columnDefinition="varchar(1000)")
     private String contenido;
 
     @Temporal(TemporalType.TIMESTAMP)

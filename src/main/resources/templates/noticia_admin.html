@@ -13,8 +13,8 @@ aca listamos todas las noticias y tenemos la opcion de editar uno por uno, activ
             <h2>Administracion de noticias</h2>
             <nav>
                 <a href="/">Home</a>
-                <a href="/admin">Administrar Portal</a>
-                <a href="/noticia/cargar">Cargar Noticia</a>
+                <a href="/cargar">Cargar Noticia</a>
+                <a href="/adminGral">Administrar portal</a>
                 <br>
                 <br>
             </nav>
@@ -36,16 +36,11 @@ aca listamos todas las noticias y tenemos la opcion de editar uno por uno, activ
                             <img th:unless="${noticia.foto!=null}" style="display:none">                           
                         </td>
                         <td>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row"></th>
-                                        <td><a th:href="@{/noticia/mostrar/__${noticia.id}__}">Ver</a></td>
-                                        <td><a th:href="@{/noticia/editar/__${noticia.id}__}">Editar</a></td>
-                                        <td><a href="">Eliminar</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>  
+                                       <a th:href="@{/mostrar/__${noticia.id}__}">Ver</a>
+                                       <a th:href="@{/editar/__${noticia.id}__}">Editar</a>
+                                       <a th:if="${noticia.estado==true}" th:href="@{/estado/__${noticia.id}__}" style="color: red">SoftDelete</a>
+                                       <a th:unless="${noticia.estado==true}" th:href="@{/estado/__${noticia.id}__}" style="color: green">Activar</a>
+                                       <a href="@{/eliminar/__${noticia.id}__}">Eliminar</a>
                         </td> 
                     </tr>
                 </tbody>        

@@ -2,6 +2,7 @@ package com.lgm.noticias.controladores;
 
 import com.lgm.noticias.entidades.Autor;
 import com.lgm.noticias.servicios.AutorServicio;
+import com.lgm.noticias.servicios.NoticiaServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ public class AutorControlador {
     
     @Autowired
     private AutorServicio autorServicio;
+    @Autowired
+    private NoticiaServicio noticiaServicio;
     
     @GetMapping("/cargar")
     public String cargarAutor (){
@@ -64,4 +67,31 @@ public class AutorControlador {
         modelo.addAttribute("autores", autores);
         return "autor_admin.html";
     }
+    
+    @GetMapping("/adminGral")
+    public String gralAdmin() {
+
+        return "admin.html";
+    }
+    
+    @GetMapping("/eliminar/{id}")
+    public String eliminarAutor (@PathVariable String id){
+            
+            if(autorServicio.borrarAutor(id)){
+                return "redirect:/autor/admin";
+            }else{
+                return "redirect:/admin";
+            }
+    }
+    
+    @GetMapping("/estado/{id}")
+    public String cambiarEstadoAutor (@PathVariable String id){
+        if(autorServicio.cambiarEstadoAutor(id)){
+                return "redirect:/autor/admin";
+            }else{
+                return "redirect:/autor/admin";
+            }
+    }
+    
+    
 }
