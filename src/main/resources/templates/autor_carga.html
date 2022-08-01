@@ -9,6 +9,7 @@ and open the template in the editor.
         <title>EggNews: Cargar Autor</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
         <header>
@@ -21,30 +22,32 @@ and open the template in the editor.
                 <br>
             </nav>
         </header>
-        <section>
+            <div th:if="${error != null}">
+            <p th:text="${error}"></p>
+            </div>
+            <section>
             <form action="/autor/registro" method="POST" enctype="multipart/form-data">
                 <div>
-                    <label for="nombreAutor">Nombre del autor</label><br>
-                    <input type="text" name="nombre" id="nombreAutor" placeholder="Nombre del Autor">
-                    <br>
-                    <br>
-                    <label for="foto">Foto del Autor</label><br>
-                    <input type="file" name="archivo" onchange="loadFile(event)" id="foto" placeholder="Foto del Autor"><br><br>
-                    <img id="output" width="400px">
-                    <script>
-                        var loadFile = function(event){
-                            var output = document.getElementById('output');
-                            output.src = URL.createObjectURL(event.target.files[0]);
-                            output.onload = function(){
-                                URL.revokeObjectURL(output.src);
-                            };
+                <label for="nombreAutor">Nombre del autor</label><br>
+                <input type="text" name="nombre" id="nombreAutor" placeholder="Nombre del Autor">
+                <br>
+                <br>
+                <label for="foto">Foto del Autor</label><br>
+                <input type="file" name="archivo" onchange="loadFile(event)" id="foto" placeholder="Foto del Autor"><br><br>
+                <img id="output" width="400px">
+                <script>
+                    var loadFile = function (event) {
+                        var output = document.getElementById('output');
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                        output.onload = function () {
+                        URL.revokeObjectURL(output.src);
                         };
-                    </script>
+                    };
+                </script>
                 </div>
                 <br>
                 <button type="submit">Cargar</button>
             </form>
         </section>     
-
     </body>
 </html>

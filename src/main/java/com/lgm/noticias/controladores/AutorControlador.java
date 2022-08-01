@@ -1,6 +1,7 @@
 package com.lgm.noticias.controladores;
 
 import com.lgm.noticias.entidades.Autor;
+import com.lgm.noticias.excepciones.MyException;
 import com.lgm.noticias.servicios.AutorServicio;
 import com.lgm.noticias.servicios.NoticiaServicio;
 import java.util.List;
@@ -29,17 +30,20 @@ public class AutorControlador {
     }
     
     @PostMapping("/registro")
-    public String registroAutor (MultipartFile archivo , @RequestParam String nombre){
+    public String registroAutor (MultipartFile archivo , @RequestParam String nombre, ModelMap model, ModelMap modelo){
         try {
             autorServicio.crearAutor(archivo, nombre);
-        } catch (Exception e) {
-            return "redirect:../cargar";
-        }
-        return "redirect:/autor/listar";
+            model.put("exito", "El autor se cargó correctamente");
+            listarAutor(modelo, model);
+            return "autor_admin.html";
+        } catch (MyException e) {
+            model.put("error", e.getMessage());
+            return "autor_carga.html";
+        }   
     }
 
     @GetMapping("/listar")
-    public String listarAutor (ModelMap modelo){ // la información la mandamos al html mediante un modelo
+    public String listarAutor (ModelMap modelo, ModelMap model){ // la información la mandamos al html mediante un modelo
         List<Autor> autores = autorServicio.listarAutores();
         modelo.addAttribute("autores", autores);
         return "autor.html";
@@ -76,12 +80,14 @@ public class AutorControlador {
     
     @GetMapping("/eliminar/{id}")
     public String eliminarAutor (@PathVariable String id){
+        try{    
+            autorServicio.borrarAutor(id);
+            return "redirect:/autor/admin";
             
-            if(autorServicio.borrarAutor(id)){
-                return "redirect:/autor/admin";
-            }else{
-                return "redirect:/admin";
-            }
+        }catch(MyException ex){
+            System.out.println(ex.getMessage());
+            return "redirect:/admin";
+        }
     }
     
     @GetMapping("/estado/{id}")

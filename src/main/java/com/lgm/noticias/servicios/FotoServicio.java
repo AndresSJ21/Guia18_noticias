@@ -1,6 +1,7 @@
 package com.lgm.noticias.servicios;
 
 import com.lgm.noticias.entidades.Foto;
+import com.lgm.noticias.excepciones.MyException;
 import com.lgm.noticias.repositorios.FotoRepositorio;
 import java.util.Date;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class FotoServicio {
     private FotoRepositorio fotoRepositorio;
     
     @Transactional
-    public Foto guardar(MultipartFile archivo) throws Exception{        
+    public Foto guardar(MultipartFile archivo) throws MyException{        
         if(archivo != null){
             try {
                 Foto foto = new Foto();
@@ -51,29 +52,26 @@ public class FotoServicio {
         foto.setEstado(false);
     }
     
-    /*    @Transactional
-    public Foto editar(String idFoto, MultipartFile archivo) throws Exception{
-    if(archivo != null){
-    try {
+    public Foto actualizarFoto(MultipartFile archivo, String idFoto){
+        if(archivo != null ){
+            try{
+                Foto foto = new Foto();
+                if (idFoto != null){
+                    Optional<Foto> respuestaFoto = fotoRepositorio.findById(idFoto);
+                    if(respuestaFoto.isPresent()){
+                        foto = respuestaFoto.get();
+                    }
+                }
+                foto.setMime(archivo.getContentType());
+                foto.setNombre(archivo.getName());
+                foto.setContent(archivo.getBytes());
+                
+                return fotoRepositorio.save(foto);
+            }catch(Exception e){
+                System.err.println(e.getMessage());
+            }
+        }
+        return null;
+    }
     
-    Foto foto = new Foto();
-    
-    if(idFoto != null){
-    Optional<Foto> respuestaFoto = fotoRepositorio.findById(idFoto);
-    if(respuestaFoto.isPresent()){
-    foto = respuestaFoto.get();
-    }
-    }
-    foto.setMime(archivo.getContentType());
-    foto.setNombre(archivo.getName());
-    foto.setContent(archivo.getBytes());
-    foto.setFCreacion(new Date());
-    foto.setActivo(true);
-    return fotoRepositorio.save(foto);
-    } catch (Exception ex) {
-    System.err.println(ex.getMessage());
-    }
-    }
-    return null;
-    } */
 }

@@ -7,19 +7,21 @@ aca listamos todos los autores y tenemos la opcion de editar uno por uno, activa
         <title>EggNews: Autores</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
         <header>
-            <h1>Administración de Autores</h1>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/autor/cargar">Cargar Autor</a>
-                <a href="/autor/listar">Listar Autores</a>
-                <a href="/adminGral">Administrar portal</a>
-                <br>
-                <br>
-            </nav>
+        <h1>Administración de Autores</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/autor/cargar">Cargar Autor</a>
+            <a href="/autor/listar">Listar Autores</a>
+            <a href="/adminGral">Administrar portal</a>
+            <br>
+            <br>
+        </nav>
         </header>
+        <p th:if="${exito != null}" th:text="${exito}"></p>
         <section>
             <table>
                 <thead>
@@ -29,17 +31,17 @@ aca listamos todos los autores y tenemos la opcion de editar uno por uno, activa
                 </thead>
                 <tbody th:each="autor: ${autores}">
                     <tr>
-                        <td th:text="${autor.nombre}"></td>
-                        <td>
-                            <img th:if="${autor.foto!=null}" th:src="${'/foto/autor?idAutor=__${autor.id}__' }" width="200px">
-                            <img th:unless="${autor.foto!=null}" style="display:none">                           
-                        </td>
-                        <td >
-                            <a th:href="@{/autor/editar/__${autor.id}__}">Editar</a>
-                            <a th:if="${autor.estado==true}" th:href="@{/autor/estado/__${autor.id}__}"style="color: red">SoftDelete</a>
-                            <a th:unless="${autor.estado==true}" th:href="@{/autor/estado/__${autor.id}__}"style="color: green">Activar</a>
-                            <a th:href="@{/autor/eliminar/__${autor.id}__}">Eliminar</a>
-                        </td>                        
+                    <td th:text="${autor.nombre}"></td>
+                    <td>
+                        <img th:if="${autor.foto!=null}" th:src="${'/foto/autor?idAutor=__${autor.id}__' }" width="200px">
+                        <img th:unless="${autor.foto!=null}" style="display:none">                           
+                    </td>
+                    <td >
+                        <a th:href="@{/autor/editar/__${autor.id}__}">Editar</a>
+                        <a th:if="${autor.estado==true}" th:href="@{/autor/estado/__${autor.id}__}"style="color: red">SoftDelete</a>
+                        <a th:unless="${autor.estado==true}" th:href="@{/autor/estado/__${autor.id}__}"style="color: green">Activar</a>
+                        <a th:href="@{/autor/eliminar/__${autor.id}__}">Eliminar</a>
+                    </td>                        
                     </tr>
                 </tbody>
             </table>

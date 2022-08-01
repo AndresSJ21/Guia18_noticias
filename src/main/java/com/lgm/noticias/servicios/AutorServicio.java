@@ -2,6 +2,7 @@ package com.lgm.noticias.servicios;
 
 import com.lgm.noticias.entidades.Autor;
 import com.lgm.noticias.entidades.Foto;
+import com.lgm.noticias.excepciones.MyException;
 import com.lgm.noticias.repositorios.AutorRepositorio;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,9 @@ public class AutorServicio {
     private NoticiaServicio noticiaServicio;
     
     @Transactional
-    public void crearAutor (MultipartFile archivo, String nombre)throws Exception{
+    public void crearAutor (MultipartFile archivo, String nombre)throws MyException{
+       
+        validar(archivo, nombre);
         
         Autor autor = new Autor();
         autor.setNombre(nombre);
@@ -40,24 +43,29 @@ public class AutorServicio {
         autorRepositorio.save(autor);
     }
     
+    
+    
+    
     public List<Autor> listarAutores(){
         List<Autor> autores = new ArrayList();
         autores = autorRepositorio.findAll(Sort.by(Sort.Direction.ASC, "nombre"));
         return autores;
     }
-    
-    @Transactional
-    public void editarAutor (MultipartFile archivo, String id, String nombre) throws Exception{
+    public void editarAutor (MultipartFile archivo, String id, String nombre) throws MyException{
+        
+        validar(archivo, nombre);
+        
         Optional<Autor> respuestaAutor = autorRepositorio.findById(id);
         if (respuestaAutor.isPresent()) {
             Autor autor = respuestaAutor.get();
             autor.setNombre(nombre);
             
-            if(archivo != null){
-                Foto foto = fotoServicio.guardar(archivo);
-                autor.setFoto(foto);
-            }
+            Foto foto = fotoServicio.guardar(archivo);
+            autor.setFoto(foto);
+
             autorRepositorio.save(autor);
+        }else{
+            throw new MyException ("No existe el autor indicado");
         }
     }
     
@@ -66,30 +74,36 @@ public class AutorServicio {
     }
     
     
-    public Autor buscarAutorPorId(String idAutor){
+    public Autor buscarAutorPorId(String idAutor) throws MyException{
         Autor autor = new Autor();
         autor = null;
         Optional<Autor> respuestaAutor = autorRepositorio.findById(idAutor);
         if (respuestaAutor.isPresent()){
             autor = respuestaAutor.get();   
+        }else{
+            throw new MyException("No existe el autor especificado");
         }          
         return autor;
     }
    
     @Transactional
-    public void softDeleteAutor(String idAutor){
+    public void softDeleteAutor(String idAutor) throws MyException{
         Autor autor = buscarAutorPorId(idAutor);
         autor.setEstado(false);
     }
    
     @Transactional
-    public boolean borrarAutor (String idAutor){
+    public boolean borrarAutor (String idAutor) throws MyException{
         boolean borradoExitoso = false;
-        if (noticiaServicio.noticiasPorAutor(idAutor).isEmpty()){
-            autorRepositorio.deleteById(idAutor);
-            borradoExitoso = true;
-        }
+            if (noticiaServicio.noticiasPorAutor(idAutor).isEmpty()){
+                autorRepositorio.deleteById(idAutor);
+                borradoExitoso = true;
+            }else{
+                borradoExitoso = false;
+                throw new MyException ("El autor tiene noticias vinculadas y no puede borrarse");
+            }
         return borradoExitoso;
+        
     }
     
     @Transactional    
@@ -111,6 +125,15 @@ public class AutorServicio {
         return false;
     }
     
-    
+    private void validar (MultipartFile archivo, String nombre) throws MyException{
+                
+        if(nombre == null || nombre.isEmpty()){
+            throw new MyException ("El nombre no puede ser nullo o estar vacío");
+        }  
+        
+        if(archivo == null || archivo.isEmpty()){
+            throw new MyException ("Debe ingresar una foto del autor");
+        }
+    }
 
 }

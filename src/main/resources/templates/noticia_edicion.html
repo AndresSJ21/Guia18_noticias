@@ -36,7 +36,6 @@
                             <img th:if="${noticia.foto!=null}" th:src="${'/foto/noticia?idNoticia=__${noticia.id}__' }" width="200px">
                             <img th:unless="${noticia.foto!=null}" style="display:none">
                         <br>
-                        <label for="imgNoticia"></label>
                         <input type="file" name="archivo" onchange="loadFile(event)" id="imgNoticia" placeholder="Elige una foto.."/>
                         <br>
                         <br>

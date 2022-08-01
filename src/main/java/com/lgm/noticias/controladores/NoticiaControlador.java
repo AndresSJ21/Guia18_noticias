@@ -2,6 +2,7 @@ package com.lgm.noticias.controladores;
 
 import com.lgm.noticias.entidades.Autor;
 import com.lgm.noticias.entidades.Noticia;
+import com.lgm.noticias.excepciones.MyException;
 import com.lgm.noticias.servicios.AutorServicio;
 import com.lgm.noticias.servicios.NoticiaServicio;
 import java.util.List;
@@ -33,15 +34,19 @@ public class NoticiaControlador {
     }
 
     @PostMapping("/registro")
-    public String registroNoticia(MultipartFile archivo, @RequestParam String titulo, @RequestParam String contenido, @RequestParam String idAutor, ModelMap modelo) throws Exception {
+    public String registroNoticia(@RequestParam (required = false) MultipartFile archivo, @RequestParam (required = false) String titulo, @RequestParam (required = false) String contenido, @RequestParam (required = false) String idAutor, ModelMap modelo, ModelMap model) throws MyException {
         try {
             noticiaServicio.crearNoticia(archivo, titulo, contenido, idAutor);
-        } catch (Exception ex) {
+            model.put("exito", "La noticia se cargó correctamente");
+            List<Noticia> noticias = noticiaServicio.listarNoticias();
+            modelo.addAttribute("noticias", noticias);
+        } catch (MyException ex) {
             List<Autor> autores = autorServicio.listarAutores();
             modelo.addAttribute("autores", autores);
-            return "redirect:/cargar";
+            model.put("error", ex.getMessage());
+            return "noticia_carga.html";
         }
-        return "redirect:/";
+        return "noticia_admin.html";
     }
 
     @GetMapping("/")
@@ -60,13 +65,14 @@ public class NoticiaControlador {
     }
 
     @PostMapping("/editar/{id}")
-    public String editarNoticia(@RequestParam(required = false) MultipartFile archivo, @RequestParam(required = false) String id, @RequestParam(required = false) String titulo, @RequestParam(required = false) String contenido, @RequestParam(required = false) String idAutor) throws Exception {
+    public String editarNoticia(@RequestParam(required = false) MultipartFile archivo, @RequestParam(required = false) String id, @RequestParam(required = false) String titulo, @RequestParam(required = false) String contenido, @RequestParam(required = false) String idAutor) throws MyException {
 
         try {
             noticiaServicio.editarNoticia(archivo, id, titulo, contenido, idAutor);
             return "redirect:/listar";
-        } catch (Exception e) {
-            return "redirect:/editar";
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
+            return "noticia.html";
         }
     }
 
@@ -92,10 +98,14 @@ public class NoticiaControlador {
 
     @GetMapping("/eliminar/{id}")
     public String eliminarNoticia(@PathVariable String id) {
-
-        noticiaServicio.borrarNoticia(id);
-
-        return "noticia.html";
+        try{
+            noticiaServicio.borrarNoticia(id);
+            return "redirect:../";
+        }catch(MyException ex){
+            System.out.println(ex.getMessage());
+            return "redirect:../admin";
+        }
+  
     }
 
     @GetMapping("/estado/{id}")

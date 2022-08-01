@@ -3,20 +3,21 @@
     <head>
         <title>EggNews: Titulares</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">    
     </head>
-    <body>
+    <body >
         <header>
             <h2>Bienvenido a EggNews!!!!</h2>
             <nav>
-                <a href="/autor/listar">Periodistas</a>
+                <a href="/autor/listar">Autores</a>
                 <a href="/adminGral">Administrar portal</a>
                 <br>
                 <br>
             </nav>
         </header>
+        <p th:if="${exito != null}" th:text="${exito}"></p>
         <section>
-         <table>
+            <table>
                 <thead
                     <th scope="col"></th>
                     <th scope="col">Titulares</th>
@@ -32,14 +33,14 @@
                             <img th:unless="${noticia.foto!=null}" style="display:none">                           
                         </td>
                         <td>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row"></th>
-                                        <td><a th:href="@{/mostrar/__${noticia.id}__}">Ver</a></td>
-                                    </tr>
-                                </tbody>
-                            </table>  
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td><a th:href="@{/mostrar/__${noticia.id}__}">Ver</a></td>
+                                </tr>
+                            </tbody>
+                        </table>  
                         </td> 
                     </tr>
                 </tbody>        

@@ -19,6 +19,7 @@ aca listamos todas las noticias y tenemos la opcion de editar uno por uno, activ
                 <br>
             </nav>
         </header>
+        <p th:if="${exito != null}" th:text="${exito}"></p>
         <section>
             <table>
                 <thead
@@ -40,7 +41,7 @@ aca listamos todas las noticias y tenemos la opcion de editar uno por uno, activ
                                        <a th:href="@{/editar/__${noticia.id}__}">Editar</a>
                                        <a th:if="${noticia.estado==true}" th:href="@{/estado/__${noticia.id}__}" style="color: red">SoftDelete</a>
                                        <a th:unless="${noticia.estado==true}" th:href="@{/estado/__${noticia.id}__}" style="color: green">Activar</a>
-                                       <a href="@{/eliminar/__${noticia.id}__}">Eliminar</a>
+                                       <a th:href="@{/eliminar/__${noticia.id}__}">Eliminar</a>
                         </td> 
                     </tr>
                 </tbody>        

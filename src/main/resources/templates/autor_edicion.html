@@ -2,52 +2,51 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>EggNews: Editar Autor</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EggNews: Editar Autor</title> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <header>
-            <h2>Editar Autor</h2>
-            <nav>
-                <a href="/">Home</a>
-                <a href="/autor/listar">Listado Autores</a>
-                <a href="/autor/cargar">Cargar Autor</a>
-                <a href="/adminGral">Administrar portal</a>
-                <br>
-                <br>
-            </nav>
-        </header>
+    <header>
+        <h2>Editar Autor</h2>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/autor/listar">Listado Autores</a>
+            <a href="/autor/cargar">Cargar Autor</a>
+            <a href="/adminGral">Administrar portal</a>
+            <br>
+            <br>
+        </nav>
+    </header>
         <section>
             <form th:action="@{/autor/editar/__${autor.id}__}" method="POST" enctype="multipart/form-data">
                 <input hidden th:value="${id}" name="id">
-                    <div>
-                        <label for="nombreAutor">Nombre Autor: </label>
-                        <input th:value="${autor.nombre}" type="text" name="nombre" id="nombreAutor">
-                            <br>
-                            <br>
-                            <label for="fotoAutor">Foto Autor: </label>
-                            <br>
-                                <img th:if="${autor.foto!=null}" th:src="${'/foto/autor?idAutor=__${autor.id}__' }" width="200px">
-                                <img th:unless="${autor.foto!=null}" style="display:none">
-                            <br>
+                <div>
+                    <label for="nombreAutor">Nombre Autor: </label>
+                    <input th:value="${autor.nombre}" type="text" name="nombre" id="nombreAutor">
+                    <br>
+                    <br>
+                    <label for="fotoAutor">Foto Autor: </label>
+                    <br>
+                    <img th:if="${autor.foto!=null}" th:src="${'/foto/autor?idAutor=__${autor.id}__' }" width="200px">
+                    <img th:unless="${autor.foto!=null}" style="display:none">
+                    <br>
                     <label for="foto">Foto del Autor</label><br>
-                    <input type="file" name="archivo" onchange="loadFile(event)" id="foto" placeholder="Foto del Autor">
-                            <br>
-                            <img id="output" width="400px">
-                            <script>
-                                var loadFile = function(event){
-                                    var output = document.getElementById('output');
-                                    output.src = URL.createObjectURL(event.target.files[0]);
-                                    output.onload = function(){
-                                        URL.revokeObjectURL(output.src);
-                                    };
-                                };
-                            </script>
-                            <br>
-                            <br>
-                    </div>
-                    <button type="submit">Actualizar</button>
+                    <input type="file" value="autor.foto" name="archivo" onchange="loadFile(event)" id="foto" placeholder="Foto del Autor">
+                    <br>
+                    <img id="output" width="400px">
+                    <script>
+                        var loadFile = function (event) {
+                            var output = document.getElementById('output');
+                            output.src = URL.createObjectURL(event.target.files[0]);
+                            output.onload = function () {
+                            URL.revokeObjectURL(output.src);
+                            };
+                        };
+                    </script>
+                    <br>
+                    <br>
+                </div>
+                <button type="submit">Actualizar</button>
             </form>
         </section>
     </body>

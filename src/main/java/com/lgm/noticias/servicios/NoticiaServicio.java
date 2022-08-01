@@ -3,6 +3,7 @@ package com.lgm.noticias.servicios;
 import com.lgm.noticias.entidades.Autor;
 import com.lgm.noticias.entidades.Foto;
 import com.lgm.noticias.entidades.Noticia;
+import com.lgm.noticias.excepciones.MyException;
 import com.lgm.noticias.repositorios.AutorRepositorio;
 import com.lgm.noticias.repositorios.NoticiaRepositorio;
 import java.util.ArrayList;
@@ -28,7 +29,10 @@ public class NoticiaServicio {
     private FotoServicio fotoServicio;
 
     @Transactional
-    public void crearNoticia(MultipartFile archivo, String titulo, String contenido, String idAutor) throws Exception {
+    public void crearNoticia(MultipartFile archivo, String titulo, String contenido, String idAutor) throws MyException {
+        
+        
+        validar(archivo, titulo, contenido, idAutor);
 
         Autor autor = autorRepositorio.findById(idAutor).get();
         Noticia noticia = new Noticia();
@@ -52,29 +56,28 @@ public class NoticiaServicio {
     }
 
     @Transactional
-    public void editarNoticia(MultipartFile archivo, String id, String titulo, String Contenido, String idAutor) throws Exception {
+    public void editarNoticia(MultipartFile archivo, String id, String titulo, String contenido, String idAutor) throws MyException {
+
+        validar(archivo, titulo, contenido, idAutor);
+
         Optional<Noticia> respuestaNoticia = noticiaRepositorio.findById(id);
         if (respuestaNoticia.isPresent()) {
             Noticia noticia = respuestaNoticia.get();
             noticia.setTitulo(titulo);
-            noticia.setContenido(Contenido);
-
-            if (archivo != null) {
-                Foto foto = fotoServicio.guardar(archivo);
-                noticia.setFoto(foto);
+            noticia.setContenido(contenido);
+            Foto foto = fotoServicio.guardar(archivo);
+            noticia.setFoto(foto);
+            Optional<Autor> respuestaAutor = autorRepositorio.findById(idAutor);
+            if (respuestaAutor.isPresent()) {
+                Autor autor = respuestaAutor.get();
+                noticia.setAutor(autor);
+            }else{
+                throw new MyException("El autor ingresado no está cargado");
             }
-
-            if (idAutor != null) {
-                Optional<Autor> respuestaAutor = autorRepositorio.findById(idAutor);
-                if (respuestaAutor.isPresent()) {
-                    Autor autor = respuestaAutor.get();
-                    noticia.setAutor(autor);
-                }
-
-            } else {
-                noticia.setAutor(noticia.getAutor());
-            }
+validar(archivo, titulo, contenido, idAutor);
             noticiaRepositorio.save(noticia);
+        }else{
+            throw new MyException("La noticia indicada no está cargada");
         }
     }
 
@@ -100,12 +103,12 @@ public class NoticiaServicio {
     }
 
     @Transactional
-    public boolean borrarNoticia(String idNoticia) {
-        boolean borradoExitoso = true;
-        System.out.println("la quiero borrar");
-        noticiaRepositorio.deleteById(idNoticia);
-
-        return borradoExitoso;
+    public void borrarNoticia(String idNoticia) throws MyException{
+        if(buscarNoticiaPorId(idNoticia)!=null){
+            noticiaRepositorio.deleteById(idNoticia);
+        }else{
+            throw new MyException("no hay noticia para borrar");
+        }
     }
 
     @Transactional
@@ -127,4 +130,21 @@ public class NoticiaServicio {
         return false;
     }
 
+    private void validar(MultipartFile archivo, String titulo, String contenido, String idAutor) throws MyException {
+        if (titulo == null || titulo.isEmpty()) {
+            throw new MyException("El titulo no puede ser nulo o estar vacío");
+        }
+
+        if (contenido == null || contenido.isEmpty()) {
+            throw new MyException("Se debe cargar un contenido para la noticia");
+        }
+
+        if (archivo == null || archivo.isEmpty()) {
+            throw new MyException("La noticia debe contener una foto");
+        }
+        
+        if (idAutor == null || idAutor.isEmpty()) {
+            throw new MyException("La nota debe tener un autor");
+        }
+    }
 }
