@@ -30,8 +30,7 @@ public class NoticiaServicio {
 
     @Transactional
     public void crearNoticia(MultipartFile archivo, String titulo, String contenido, String idAutor) throws MyException {
-        
-        
+
         validar(archivo, titulo, contenido, idAutor);
 
         Autor autor = autorRepositorio.findById(idAutor).get();
@@ -58,25 +57,39 @@ public class NoticiaServicio {
     @Transactional
     public void editarNoticia(MultipartFile archivo, String id, String titulo, String contenido, String idAutor) throws MyException {
 
-        validar(archivo, titulo, contenido, idAutor);
-
         Optional<Noticia> respuestaNoticia = noticiaRepositorio.findById(id);
         if (respuestaNoticia.isPresent()) {
             Noticia noticia = respuestaNoticia.get();
+            if (archivo == null || archivo.isEmpty()) {
+                noticia.setFoto(noticia.getFoto());
+            } else {
+                noticia.setFoto(fotoServicio.actualizarFoto(archivo, noticia.getFoto().getId()));
+            }
+            if (titulo == null || titulo.isEmpty()) {
+                noticia.setAutor(noticia.getAutor());
+            }
+            if (contenido == null || contenido.isEmpty()) {
+                noticia.setContenido(noticia.getContenido());
+            }
+            if (!idAutor.equals(noticia.getAutor().getId()) ) {
+                System.out.println("El autor que tenía es " + noticia.getAutor().getId());
+                System.out.println("el nuevo autor es" + idAutor);
+                Optional<Autor> respuestaAutor = autorRepositorio.findById(idAutor);
+                if (respuestaAutor.isPresent()) {
+                    Autor autor = respuestaAutor.get();
+                    noticia.setAutor(autor);
+                } else {
+                    throw new MyException("El autor ingresado no está cargado");
+                }
+            } else {
+                System.out.println("el autor que tenia es" + noticia.getAutor().getId());
+            }
+
             noticia.setTitulo(titulo);
             noticia.setContenido(contenido);
-            Foto foto = fotoServicio.guardar(archivo);
-            noticia.setFoto(foto);
-            Optional<Autor> respuestaAutor = autorRepositorio.findById(idAutor);
-            if (respuestaAutor.isPresent()) {
-                Autor autor = respuestaAutor.get();
-                noticia.setAutor(autor);
-            }else{
-                throw new MyException("El autor ingresado no está cargado");
-            }
-validar(archivo, titulo, contenido, idAutor);
+
             noticiaRepositorio.save(noticia);
-        }else{
+        } else {
             throw new MyException("La noticia indicada no está cargada");
         }
     }
@@ -103,10 +116,10 @@ validar(archivo, titulo, contenido, idAutor);
     }
 
     @Transactional
-    public void borrarNoticia(String idNoticia) throws MyException{
-        if(buscarNoticiaPorId(idNoticia)!=null){
+    public void borrarNoticia(String idNoticia) throws MyException {
+        if (buscarNoticiaPorId(idNoticia) != null) {
             noticiaRepositorio.deleteById(idNoticia);
-        }else{
+        } else {
             throw new MyException("no hay noticia para borrar");
         }
     }
@@ -142,7 +155,7 @@ validar(archivo, titulo, contenido, idAutor);
         if (archivo == null || archivo.isEmpty()) {
             throw new MyException("La noticia debe contener una foto");
         }
-        
+
         if (idAutor == null || idAutor.isEmpty()) {
             throw new MyException("La nota debe tener un autor");
         }

@@ -13,20 +13,20 @@ and open the template in the editor.
     <body>
         <header>
             <h2>¡¡¡Carga la noticia aquí!!!</h2>
-        <nav>
-            <a href="/">Home</a>
-            <a href="/autor/listar">Autores</a>
-            <a href="/autor/cargar">Cargar Autor</a>
-            <a href="/adminGral">Administrar portal</a>
-            <br>
-            <br>
-        </nav>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/autor/listar">Autores</a>
+                <a href="/autor/cargar">Cargar Autor</a>
+                <a href="/adminGral">Administrar portal</a>
+                <br>
+                <br>
+            </nav>
         </header>
         <p th:if="${error != null}" th:text="${error}"></p>
         <section>
             <form action="/registro" method="POST" enctype="multipart/form-data">
                 <div>
-                    <h3 for="titular">Titular</h3><br>
+                    <label for="titular">Titular</label><br>
                     <input type="text" name="titulo" id="titular" placeholder="Ingresa el titular aquí...">
                     <br>
                     <br>

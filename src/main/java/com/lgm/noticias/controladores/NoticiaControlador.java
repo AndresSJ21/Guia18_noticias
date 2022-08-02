@@ -34,7 +34,7 @@ public class NoticiaControlador {
     }
 
     @PostMapping("/registro")
-    public String registroNoticia(@RequestParam (required = false) MultipartFile archivo, @RequestParam (required = false) String titulo, @RequestParam (required = false) String contenido, @RequestParam (required = false) String idAutor, ModelMap modelo, ModelMap model) throws MyException {
+    public String registroNoticia(@RequestParam(required = false) MultipartFile archivo, @RequestParam(required = false) String titulo, @RequestParam(required = false) String contenido, @RequestParam(required = false) String idAutor, ModelMap modelo, ModelMap model) throws MyException {
         try {
             noticiaServicio.crearNoticia(archivo, titulo, contenido, idAutor);
             model.put("exito", "La noticia se cargó correctamente");
@@ -65,11 +65,13 @@ public class NoticiaControlador {
     }
 
     @PostMapping("/editar/{id}")
-    public String editarNoticia(@RequestParam(required = false) MultipartFile archivo, @RequestParam(required = false) String id, @RequestParam(required = false) String titulo, @RequestParam(required = false) String contenido, @RequestParam(required = false) String idAutor) throws MyException {
+    public String editarNoticia(@RequestParam(required = false) MultipartFile archivo, @RequestParam(required = false) String id, @RequestParam(required = false) String titulo, @RequestParam(required = false) String contenido, @RequestParam(required = false) String idAutor, ModelMap modelo) throws MyException {
 
         try {
             noticiaServicio.editarNoticia(archivo, id, titulo, contenido, idAutor);
-            return "redirect:/listar";
+            List<Noticia> noticias = noticiaServicio.listarNoticias();
+            modelo.addAttribute("noticias", noticias);
+            return "redirect:/admin";
         } catch (MyException e) {
             System.out.println(e.getMessage());
             return "noticia.html";
@@ -89,7 +91,7 @@ public class NoticiaControlador {
 
         return "noticia_admin.html";
     }
-    
+
     @GetMapping("/adminGral")
     public String gralAdmin() {
 
@@ -98,14 +100,14 @@ public class NoticiaControlador {
 
     @GetMapping("/eliminar/{id}")
     public String eliminarNoticia(@PathVariable String id) {
-        try{
+        try {
             noticiaServicio.borrarNoticia(id);
             return "redirect:../";
-        }catch(MyException ex){
+        } catch (MyException ex) {
             System.out.println(ex.getMessage());
             return "redirect:../admin";
         }
-  
+
     }
 
     @GetMapping("/estado/{id}")

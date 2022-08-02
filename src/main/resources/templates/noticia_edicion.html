@@ -52,9 +52,8 @@
                         <br>
                         <br>
                        <label for="autor">Autor: </label>
-                        <input th:value="${noticia.autor.nombre}" type="text" name="nombre" id="autor" placeholder="Ingresa el titular aquí...">
                         <select name="idAutor">
-                            <option>Seleccionar Autor
+                            <option th:value="${noticia.autor.id}" th:text="${noticia.autor.nombre}">
                             <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre}">
                         </select>
                     </div>
